@@ -89,6 +89,46 @@ class Vector(object):
     def is_orthogonal_to(self,v, tolerance=1e-10):
         return abs(self.dot_product(v)) < tolerance
 
+    def component_parallel_to(self,basis):
+        try:
+            u = basis.normalized()
+            weight = self.dot_product(u)
+            return u.times_scalar(weight)
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG:
+                raise Exception(self.NO_UNIQUE_PARALLEL_COMPONENT_MSG)
+            else:
+                raise e
+
+    def component_orthogonal_to(self,basis):
+        try:
+            projection = self.component_parallel_to(basis)
+            return self.minus(projection)
+
+        except Exception as e:
+            if str(e) == self.NO_UNIQUE_PARALLEL_COMPONENT_MSG:
+                raise Exception(self.NO_UNIQUE_ORTHOGONAL_COMPONENT_MSG)
+            else:
+                raise e
+
+    def cross_product(self, v):
+        new_coordinates = []
+        arg1 = self.coordinates[1]*v.coordinates[2] - v.coordinates[1]*self.coordinates[2]
+        new_coordinates.append(arg1)
+        arg2 = -1*(self.coordinates[0]*v.coordinates[2] - v.coordinates[0]*self.coordinates[2])
+        new_coordinates.append(arg2)
+        arg3 = self.coordinates[0]*v.coordinates[1] - v.coordinates[0]*self.coordinates[1]
+        new_coordinates.append(arg3)
+        return Vector(new_coordinates)
+
+    def area_of_parallelogram(self, v):
+        cross_product = self.cross_product(v)
+        return cross_product.magnitude()
+
+    def are_of_triangle_with(self, v):
+        return self.area_of_parallelogram(v) / 2.0
+
+
 my_vector = Vector([1,2,3])
 print(my_vector)
 my_vector2 = Vector([1,2,3])
@@ -178,3 +218,32 @@ w = Vector([0,0])
 print('Fourth pair')
 print('is parallel to: ' + str(v.is_parallel_to(w)))
 print('is orthogonal to: '+ str(v.is_orthogonal_to(w)))
+
+# Projecting Vectors
+print('')
+print('Projection of Vectors')
+v = Vector([3.039, 1.879])
+w = Vector([0.825, 2.036])
+print(v.component_parallel_to(w))
+v = Vector([-9.88, -3.264, -8.159])
+w = Vector([-2.155, -9.353, -9.473])
+print(v.component_orthogonal_to(w))
+v = Vector([3.009, -6.172, 3.692, -2.51])
+w = Vector([6.404, -9.144, 2.759, 8.718])
+vpar = v.component_parallel_to(w)
+vort = v.component_orthogonal_to(w)
+print('Parallel component: ' + str(vpar))
+print('Orthogonal component: ' + str(vort))
+
+# Cross Products
+print('')
+print('Cross Products')
+v = Vector([8.462, 7.893, -8.187])
+w = Vector([6.984, -5.975, 4.778])
+print(v.cross_product(w))
+v = Vector([-8.987, -9.838, 5.031])
+w = Vector([-4.268, -1.861, -8.866])
+print(v.area_of_parallelogram(w))
+v = Vector([1.5, 9.547, 3.691])
+w = Vector([-6.007, 0.124, 5.772])
+print(v.are_of_triangle_with(w))
