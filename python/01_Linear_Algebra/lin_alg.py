@@ -60,7 +60,10 @@ class Vector(object):
             u1 = self.normalized()
             u2 = v.normalized()
 
-            angle_in_radians = math.acos(u1.dot_product(u2))
+            if u1.dot_product(u2) <= -1:
+                angle_in_radians = math.acos(-1.0)
+            else:
+                angle_in_radians = math.acos(u1.dot_product(u2))
 
             if in_degrees:
                 degrees_per_radian = 180./math.pi
@@ -74,6 +77,17 @@ class Vector(object):
             else:
                 raise e
 
+    def is_zero(self, tolerance=1e-10):
+        return self.magnitude() < tolerance
+
+    def is_parallel_to(self,v):
+        if self.is_zero() or v.is_zero() or self.angle_with(v) == 0 or self.angle_with(v) == math.pi:
+            return True
+        else:
+            return False
+
+    def is_orthogonal_to(self,v, tolerance=1e-10):
+        return abs(self.dot_product(v)) < tolerance
 
 my_vector = Vector([1,2,3])
 print(my_vector)
@@ -141,3 +155,26 @@ w = Vector([2.751, 8.259, 3.985])
 print('Angle in radians : ' + str(v.angle_with(w)))
 print('Angle in degrees : ' + str(v.angle_with(w, True)))
 
+# Parallelism and Orthogonality
+print('')
+print('Vector Parallelism and Orthogonality')
+v = Vector([-7.579, -7.88])
+w = Vector([22.737, 23.64])
+print('First Pair')
+print('is parallel to: ' + str(v.is_parallel_to(w)))
+print('is orthogonal to: '+ str(v.is_orthogonal_to(w)))
+v = Vector([-2.029, 9.97, 4.172])
+w = Vector([-9.231, -6.639, -7.245])
+print('Second pair')
+print('is parallel to: '+ str(v.is_parallel_to(w)))
+print('is orthogonal to: ' + str(v.is_orthogonal_to(w)))
+v = Vector([-2.328, -7.284, -1.214])
+w = Vector([-1.821, 1.072, -2.94])
+print('Third pair')
+print('is parallel to: ' + str(v.is_parallel_to(w)))
+print('is orthogonal to: ' + str(v.is_orthogonal_to(w)))
+v = Vector([2.118, 4.827])
+w = Vector([0,0])
+print('Fourth pair')
+print('is parallel to: ' + str(v.is_parallel_to(w)))
+print('is orthogonal to: '+ str(v.is_orthogonal_to(w)))
