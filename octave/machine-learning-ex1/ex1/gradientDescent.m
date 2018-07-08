@@ -27,7 +27,11 @@ for iter = 1:num_iters
 
     % Save the cost J in every iteration    
     J_history(iter) = computeCost(X, y, theta);
+    h = X*theta;
+    theta0 = theta(1,1) - alpha * (1/m) * sum((h - y).*X(:,1));
+    theta1 = theta(2,1) - alpha * (1/m) * sum((h - y).*X(:,2));
 
+    theta = [theta0; theta1];
 end
 
 end
