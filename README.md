@@ -3,7 +3,7 @@
 Trying to create a table
 
 
-|     Name	|     Phone	|
+| No |   Name	|     Phone	|
 |---------------|---------------|
-| Vinay		| 9164517185    |
-| Unknown	|		|
+| 01 | Vinay	| 9164517185    |
+| 02 | Unknown	|		|
