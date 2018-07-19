@@ -66,8 +66,7 @@ The NVIC functions are CMSIS compliant. The CMSIS repository on Github is cloned
 | 01 |  void pal_NVIC_EnableIRQ(uint32_t intr_num); |  Enable Interrupt |  intr_num: Interrupt number   |
 | 02 |  void pal_NVIC_DisableIRQ(uint32_t intr_num);    |  Disable Interrupt    |  intr_num: Interrupt number   |
 | 03 |  uint32_t pal_NVIC_ClearTargetState(uint32_t intr_num);  |  Clear Interrupt Target State |  intr_num: Interrupt number   |
-| 04 |  void pal_NVIC_SetPriority(uint32_t intr_num, uint32_t priority);    |  Set Interrupt Priority   |  intr_num: Interrupt number   |
-|    |  |   |  priority: Priority to set    |
+| 04 |  void pal_NVIC_SetPriority(uint32_t intr_num, uint32_t priority);    |  Set Interrupt Priority   |  intr_num: Interrupt number<br/>priority: Priority to set|
 | 05 |  uint32_t pal_NVIC_GetPriority(uint32_t intr_num);   |  Get Interrupt Priority   |  intr_num: Interrupt number   |
 | 06 |  void pal_NVIC_SetPendingIRQ(uint32_t intr_num); |  Set Pending Interrupt    |  intr_num: Interrupt number   |
 | 07 |  void pal_NVIC_ClearPendingIRQ(uint32_t intr_num);   |  Clear Pending Interrupt  |  intr_num: Interrupt number   |
