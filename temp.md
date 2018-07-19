@@ -47,7 +47,7 @@ An example of the input configuration file is as shown.
   - The peripheral code exists inside platform/peripherals/<peripheral_name>. If <platform_name> is using the peripherals that already exist in platform/peripherals/<peripheral_name>,
     then this code can be reused. Otherwise, the code must be ported for platform specific peripherals.
   - Update platform/board/<platform_name>/Makefile with the appropriate path of the peripherals used.
-  - Update platform/board/<platform_name>/src/pal_baremetal/cmsis_intf.c with the correct instance of the peripherals used.
+  - Update platform/board/<platform_name>/src/pal_baremetal_intf.c or pal_cmsis_intf.c with the correct instance of the peripherals used.
   - Update the primary input for the TBSA-v8M tests, that is, target configuration file in platform/board/<platform_name>/tbsa_tgt.cfg. Use platform/boards/fvp/tbsa_tgt.cfg as reference.
   - Refer val/include/val_target.h for structure details.
 
