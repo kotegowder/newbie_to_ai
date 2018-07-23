@@ -7,4 +7,3 @@ Trying to create a table
 |----|----------|---------------|
 | 01 | Vinay	| 9164517185    |
 | 02 | Unknown	|		|
-| 03 | xyz | 1234|
