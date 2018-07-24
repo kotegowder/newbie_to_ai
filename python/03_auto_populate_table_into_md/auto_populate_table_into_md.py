@@ -128,8 +128,12 @@ def populate_table(out_file, api_table_databse, start_line, end_line):
 	for idx, details in api_table_database.items():
 		pro_idx = 5 + details[2] - 1
 		line_list.insert(start_idx - 1, "| " + str(idx).zfill(2) + " | " + details[pro_idx] + " "*(max_prototype_len-1-len(details[pro_idx])) + "| "
-						+ details[1] + " "*(max_description_len-1-len(details[1])) + "| "
-						+ details[3] + " "*(max_param_len-1-len(details[3])) + "|\n")
+						+ details[1] + " "*(max_description_len-1-len(details[1])) + "| ")
+		par_idx = 0
+		while(par_idx < details[2]):
+			line_list[start_idx - 1] = line_list[start_idx - 1] + details[par_idx+3];
+			par_idx += 1
+		line_list[start_idx - 1] = line_list[start_idx - 1] + " "*(max_param_len-1-len(details[3])) + "|\n"
 		start_idx += 1
 
 	#Re-write the file from line_list
