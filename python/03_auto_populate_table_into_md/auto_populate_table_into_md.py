@@ -35,6 +35,10 @@ start_line = int(sys.argv[3])
 end_line = int(sys.argv[4])
 
 def get_table_details(in_file, api_table_database, max_brief_len, max_param_len, max_prototype_len):
+	"""
+	Fetch details on Prototype, Description and Parameters from the header file
+
+	"""
 	api_cnt = 0
 	param_collection_started = 0
 	param_start_idx = 0
@@ -43,32 +47,26 @@ def get_table_details(in_file, api_table_database, max_brief_len, max_param_len,
 	with open(in_file, 'r') as f:
 		for line in f:
 			if ('@brief' in line):
-				#print(line[line.find('-') + 1:].strip())
 				api_table_details.append(1)
 				api_table_details.append(line[line.find('-') + 1:].strip())
 				continue
 			if ('@param' in line):
 				param_start_idx = line.find('-') + 2
-				#print(line[param_start_idx:].rstrip('\n'))
 				api_table_details.append(1)
 				api_table_details.append(line[param_start_idx:].rstrip('\n')+'<br/>')
 				param_collection_started = 1
 				continue
 			if (param_collection_started == 1) and ('@return' not in line):
-				#print(line[param_start_idx:].rstrip('\n'))
 				api_table_details[2] = api_table_details[2] + 1
 				api_table_details.append(line[param_start_idx:].rstrip('\n')+'<br/>')
 			else:
 				param_collection_started = 0
 			if ('(' in line) and (';' == line[-2]) and ('/*' != line[:2]) and ('*' != line.strip()[0]):
-				#print(line.rstrip('\n'))
 				api_table_details.append(1)
 				api_table_details.append(line.rstrip('\n'));
 				api_cnt = api_cnt + 1
 				api_table_database.update({api_cnt:api_table_details})
 				api_table_details = []
-	print("api_cnt = " + str(api_cnt))
-	#print(api_table_database)
 
 def get_max_len(api_table_database):
 	"""
@@ -89,6 +87,10 @@ def get_max_len(api_table_database):
 	return pro_len, des_len, par_len
 
 def populate_table(out_file, api_table_databse, start_line, end_line):
+	"""
+	Populate the table as accepted by Markdown file
+
+	"""
 	if (start_line > end_line) and (start_line < 1):
 		print("\nInvalid input : The table insertion line range is not correct");
 		sys.exit(1)
@@ -109,9 +111,6 @@ def populate_table(out_file, api_table_databse, start_line, end_line):
 
 	# Get the max text length for each field : Prototype, Description and Parameters
 	max_prototype_len, max_description_len, max_param_len = get_max_len(api_table_database)
-	print(max_prototype_len)
-	print(max_description_len)
-	print(max_param_len)
 
 	# Start populating the API table
 	# First update table heading
